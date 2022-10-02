@@ -17,7 +17,13 @@
 
 //Seccion 5 Ciclo de vida de un SW
 
+//Desacrgar assets/Crear cache
 self.addEventListener('install', event =>{
     console.log('Instalando SW');
-})
+    self.skipWaiting();
+});
 
+//Borrar cache viejo
+self.addEventListener('activate', event => {
+    console.log('Nuevo SW activo y listo');
+});
