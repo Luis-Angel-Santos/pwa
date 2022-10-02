@@ -20,10 +20,19 @@
 //Desacrgar assets/Crear cache
 self.addEventListener('install', event =>{
     console.log('Instalando SW');
-    self.skipWaiting();
+    //self.skipWaiting();
+    const instalacion = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('Instalaciones terminadas');
+            self.skipWaiting();
+            resolve()
+        }, 1000);
+    })
+    event.waitUntil(instalacion);
 });
 
 //Borrar cache viejo
 self.addEventListener('activate', event => {
     console.log('Nuevo SW activo y listo');
 });
+
