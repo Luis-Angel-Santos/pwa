@@ -1,7 +1,9 @@
-self.addEventListener('fetch', event => {
-    /*if(event.request.url.includes('main.jpg')){
+//Seccion 4 Service Worker y Fetch Event
+
+/*self.addEventListener('fetch', event => {
+    if(event.request.url.includes('main.jpg')){
         event.respondWith(fetch('img/main-patas-arriba.jpg'));
-    }*/
+    }
     const respuesta = fetch(event.request)
                         .then(resp => {
                             if(resp.ok){
@@ -11,4 +13,11 @@ self.addEventListener('fetch', event => {
                             }
                         });
     event.respondWith(respuesta);
-});
+});*/
+
+//Seccion 5 Ciclo de vida de un SW
+
+self.addEventListener('install', event =>{
+    console.log('Instalando SW');
+})
+
