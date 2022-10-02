@@ -17,7 +17,7 @@
 
 //Seccion 5 Ciclo de vida de un SW
 
-//Desacrgar assets/Crear cache
+//Descargar assets/Crear cache
 self.addEventListener('install', event =>{
     console.log('Instalando SW');
     //self.skipWaiting();
@@ -26,7 +26,7 @@ self.addEventListener('install', event =>{
             console.log('Instalaciones terminadas');
             self.skipWaiting();
             resolve()
-        }, 1000);
+        });
     })
     event.waitUntil(instalacion);
 });
@@ -34,5 +34,14 @@ self.addEventListener('install', event =>{
 //Borrar cache viejo
 self.addEventListener('activate', event => {
     console.log('Nuevo SW activo y listo');
+});
+
+//fetch: manejo de peticiones http
+self.addEventListener('fetch', event => {
+    console.log(event.request.url);
+    if(event.request.url.includes('https://reqres.in/api/users')){
+        const resp = new Response(`{ok: false, mensaje: 'hola mundo'}`);
+        event.respondWith(resp);
+    }
 });
 
