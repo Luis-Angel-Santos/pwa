@@ -38,10 +38,18 @@ self.addEventListener('activate', event => {
 
 //fetch: manejo de peticiones http
 self.addEventListener('fetch', event => {
-    console.log(event.request.url);
+    /*console.log(event.request.url);
     if(event.request.url.includes('https://reqres.in/api/users')){
         const resp = new Response(`{ok: false, mensaje: 'hola mundo'}`);
         event.respondWith(resp);
-    }
+    }*/
 });
 
+
+//sync: recuperamos conexion a internet
+
+self.addEventListener('sync', event => {
+    console.log('Tenemos conexión!');
+    console.log(event);
+    console.log(event.tag);
+});
