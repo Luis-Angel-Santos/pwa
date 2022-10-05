@@ -1,5 +1,7 @@
+const CACHE_NAME = 'cache-1';
+
 self.addEventListener('install', e => {
-    const cacheProm = caches.open('cache-1').then(cache => {
+    const cacheProm = caches.open(CACHE_NAME).then(cache => {
         return cache.addAll([
             '/',
             '/index.html',
@@ -13,6 +15,24 @@ self.addEventListener('install', e => {
 });
 
 self.addEventListener('fetch', e => {
-   //Cache Only
-    e.respondWith(caches.match(e.request));
+    //Cache Only
+    //e.respondWith(caches.match(e.request));
+
+    //Cache with network fallback
+    const respuestaCache = caches.match(e.request)
+        .then(resp => {
+            if(resp) return resp;
+            //no existe archivo
+            console.log('No existe', e.request.url);
+            return fetch(e.request).then(newResp => {
+                caches.open(CACHE_NAME)
+                    .then(cache => {
+                        cache.put(e.request, newResp);
+                    });    
+                return newResp.clone();
+            });
+        });
+
+    e.respondWith(respuestaCache);
+
 });
