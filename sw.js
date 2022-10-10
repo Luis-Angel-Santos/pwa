@@ -33,6 +33,7 @@ self.addEventListener('install', e => {
 });
 
 self.addEventListener('fetch', e => {
+    
     //Cache Only
     //e.respondWith(caches.match(e.request));
 
@@ -56,7 +57,7 @@ self.addEventListener('fetch', e => {
     */
 
     //Network with cache fallback
-    const respuesta = fetch(e.request).then(res =>{
+    /*const respuesta = fetch(e.request).then(res =>{
         console.log('fetch', res);
         caches.open(CACHE_DYNAMIC_NAME)
             .then(cache => {
@@ -68,6 +69,18 @@ self.addEventListener('fetch', e => {
         return caches.match(e.request);
     });
 
+    e.respondWith(respuesta);*/
+    //Cache with network update
+    if(e.request.url.includes('bootstrap')){
+        return respondWith(caches.match(e.request));
+    }
+    const respuesta = caches.open(CACHE_STATIC_NAME).then(cache => {
+        fetch(e.request).then(newResp => 
+            cache.put(e.request, newResp));
+        return cache.match(e.request);
+    })
+
     e.respondWith(respuesta);
+    
 
 });
